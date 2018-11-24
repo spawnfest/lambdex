@@ -12,8 +12,6 @@ class App extends Component {
               lambdex
             </Navbar.Item>
           </Navbar.Brand>
-          <Navbar.Menu>
-          </Navbar.Menu>
         </Navbar>
         <AppRouter/>
       </div>
