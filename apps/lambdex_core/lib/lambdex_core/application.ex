@@ -13,8 +13,6 @@ defmodule LambdexCore.Application do
       {DynamicSupervisor, strategy: :one_for_one, name: LambdexCore.ExecutionSupervisor}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: LambdexCore.Supervisor]
     Supervisor.start_link(children, opts)
   end
