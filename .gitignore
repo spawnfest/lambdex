@@ -42,3 +42,6 @@ npm-debug.log
 /config/*.secret.exs
 
 .elixir_ls
+
+lambdex.iml
+.idea/
