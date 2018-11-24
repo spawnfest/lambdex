@@ -10,11 +10,14 @@ const data = [
   {name: "Lambda #5"},
 ];
 
-const Home = () => (
-  <Section>
-    {data.map((lambda, i)=><LambdaListItem key={i} name={lambda.name}/>)}
+const Home = () => {
+  const itemClicked = (lambda) => {
+    alert(lambda.name);
+  };
+  return <Section>
+    {data.map((lambda, i)=><LambdaListItem key={i} name={lambda.name} onItemClicked={itemClicked.bind(this, lambda)}/>)}
   </Section>
-);
+};
 
 
 export default Home

@@ -7,7 +7,7 @@ import Icon from "react-bulma-components/lib/components/icon";
 import './LambdaListItem.scss';
 import Trend from "../../common/Trend";
 
-const LambdaListItem = ({name})=>(
+const LambdaListItem = ({name, onItemClicked})=>(
   <Box>
     <Columns>
       <Columns.Column>
@@ -22,7 +22,7 @@ const LambdaListItem = ({name})=>(
       </Columns.Column>
       <Columns.Column>
         <Button.Group>
-          <Button color="info"><Icon icon="edit"/></Button>
+          <Button color="info" onClick={onItemClicked}><Icon icon="edit"/></Button>
           <Button color="info"><Icon icon="edit"/></Button>
           <Button color="info"><Icon icon="edit"/></Button>
           <Button color="info"><Icon icon="cross"/></Button>
