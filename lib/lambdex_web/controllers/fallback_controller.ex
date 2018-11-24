@@ -9,24 +9,28 @@ defmodule LambdexWeb.FallbackController do
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> render(LambdexWeb.ChangesetView, "error.json", changeset: changeset)
+    |> put_view(LambdexWeb.ChangesetView)
+    |> render("error.json", changeset: changeset)
   end
 
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> render(LambdexWeb.ErrorView, :"404")
+    |> put_view(LambdexWeb.ErrorView)
+    |> render(:"404")
   end
 
   def call(conn, {:error, :unauthorized}) do
     conn
     |> put_status(403)
-    |> render(LambdexWeb.ErrorView, :"403")
+    |> put_view(LambdexWeb.ErrorView)
+    |> render(:"403")
   end
 
   def call(conn, {:error, reason}) do
     conn
     |> put_status(400)
-    |> render(LambdexWeb.ErrorView, :"400")
+    |> put_view(LambdexWeb.ErrorView)
+    |> render(:"400")
   end
 end

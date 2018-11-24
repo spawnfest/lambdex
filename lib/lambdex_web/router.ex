@@ -13,11 +13,24 @@ defmodule LambdexWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug(Lambdex.Auth.AuthAccessPipeline)
+  end
+
   scope "/api", LambdexWeb do
     pipe_through :api
 
     resources "/users", UserController
     post("/users/token", UserController, :token)
+
+    scope "/" do
+      pipe_through :auth
+
+      resources "/lambdas", LambdaController
+      resources "/lambda_executions", LambdaExecutionController
+      #post "/lambas/:id/run", LambdaController, :run
+    end
+
   end
 
   scope "/", LambdexWeb do
