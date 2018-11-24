@@ -90,7 +90,7 @@ defmodule LambdexWeb.UserControllerTest do
   describe "create token" do
     setup [:create_user]
 
-    test "creates a token for the user", %{conn: conn, user: user} do
+    test "creates a token for the user", %{conn: conn, user: _user} do
       payload = %{
         "email" => "my@email.com",
         "password" => "password"
@@ -100,7 +100,7 @@ defmodule LambdexWeb.UserControllerTest do
       assert is_binary(token)
     end
 
-    test "return error if user login failed", %{conn: conn, user: user} do
+    test "return error if user login failed", %{conn: conn, user: _user} do
       payload = %{
         "email" => "my@email.com",
         "password" => "wrongpass"

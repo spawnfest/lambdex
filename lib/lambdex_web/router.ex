@@ -13,16 +13,16 @@ defmodule LambdexWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", LambdexWeb do
-    pipe_through :browser
-
-    get "/*path", PageController, :index
-  end
-
   scope "/api", LambdexWeb do
     pipe_through :api
 
     resources "/users", UserController
     post("/users/token", UserController, :token)
+  end
+
+  scope "/", LambdexWeb do
+    pipe_through :browser
+
+    get "/*path", PageController, :index
   end
 end
