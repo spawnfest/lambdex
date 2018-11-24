@@ -73,3 +73,8 @@ config :lambdex, Lambdex.Repo,
   database: "lambdex",
   hostname: "localhost",
   pool_size: 10
+
+# Configures Guardian
+config :lambdex, Lambdex.Auth.Guardian,
+  issuer: "lambdex",
+  secret_key: "QYFbJBkM+qiUJC5ZscP+J3Y5YVsreD+mhEna27uC3jTxy2Q/5qkLoU0IDO4UQEGS"

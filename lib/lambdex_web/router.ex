@@ -19,8 +19,10 @@ defmodule LambdexWeb.Router do
     get "/*path", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", LambdexWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", LambdexWeb do
+    pipe_through :api
+
+    resources "/users", UserController
+    post("/users/token", UserController, :token)
+  end
 end

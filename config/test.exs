@@ -16,3 +16,8 @@ config :lambdex, Lambdex.Repo,
   database: "lambdex_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Configures Guardian
+config :lambdex, Lambdex.Auth.Guardian,
+  issuer: "lambdex",
+  secret_key: "UZbz4Z2nyv9PAN5hAGvgCO4fpeHueAfQv0PNrnquY8KNG+6u5rAh2IE9U+NMPBiM"
