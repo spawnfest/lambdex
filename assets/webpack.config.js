@@ -6,6 +6,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, options) => ({
+  resolve: {
+    alias: {
+      '_variables.sass': path.resolve(__dirname, 'css/_variables.sass'),
+    },
+  },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false }),
@@ -27,6 +32,14 @@ module.exports = (env, options) => ({
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: [
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ]
       },
       {
         test: /\.css$/,
