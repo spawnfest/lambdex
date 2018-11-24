@@ -6,8 +6,18 @@ defmodule Lambdex.AccountsTest do
   describe "users" do
     alias Lambdex.Accounts.User
 
-    @valid_attrs %{email: "an@email.com", name: "a_name", password: "password", password_hash: "some password_hash"}
-    @update_attrs %{email: "u_my@email.com", name: "u_name", password: "upassword", password_hash: "some updated password_hash"}
+    @valid_attrs %{
+      email: "an@email.com",
+      name: "a_name",
+      password: "password",
+      password_hash: "some password_hash"
+    }
+    @update_attrs %{
+      email: "u_my@email.com",
+      name: "u_name",
+      password: "upassword",
+      password_hash: "some updated password_hash"
+    }
     @invalid_attrs %{email: nil, name: nil, password_hash: nil}
 
     def user_fixture(attrs \\ %{}) do

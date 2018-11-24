@@ -95,6 +95,7 @@ defmodule LambdexWeb.UserControllerTest do
         "email" => "my@email.com",
         "password" => "password"
       }
+
       conn = post(conn, Routes.user_path(conn, :token), data: payload)
       %{"token" => token} = json_response(conn, 200)
       assert is_binary(token)
@@ -105,6 +106,7 @@ defmodule LambdexWeb.UserControllerTest do
         "email" => "my@email.com",
         "password" => "wrongpass"
       }
+
       conn = post(conn, Routes.user_path(conn, :token), data: payload)
       assert json_response(conn, 400) != %{}
     end
