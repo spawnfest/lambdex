@@ -17,7 +17,6 @@ defmodule Lambdex.MixProject do
   # Run "mix help deps" for examples and options.
   defp deps do
     [
-      {:absinthe, "~> 1.4"},
       {:base64url, "~> 0.0.1"},
       {:bbmustache, "~> 1.6"},
       {:bcrypt_elixir, "~> 1.1"},
