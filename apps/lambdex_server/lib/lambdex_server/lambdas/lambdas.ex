@@ -160,7 +160,7 @@ defmodule LambdexServer.Lambdas do
   def list_lambda_executions(user_id, lambda_id) do
     query = from(l in Lambda, where: [user_id: ^user_id, id: ^lambda_id])
     lambda = Repo.one!(query)
-    query = from(le in LambdaExecution, where: [lambda_id: ^lambda_id])
+    query = from(le in LambdaExecution, where: [lambda_id: ^lambda_id], order_by: [desc: le.inserted_at])
     Repo.all(query)
   end
 
