@@ -103,13 +103,13 @@ Note that since lambdas are just anonymous functions which will run in the conte
 Once a lambda has been created it will be listed in the main screen.
 Each entry has four buttons: `Info`, `Edit`, `Run`, `Delete`.
 
-![entry](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_entry.png)
+<!-- ![entry](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_entry.png) -->
 
 Clicking on the `Info` button will show the details for that lambda.
 
 ![info](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_info.png)
 
-Clicking on the `Run` button will run 
+Clicking on the `Run` button will run the lambda manually.
 
 ## Next steps
 
