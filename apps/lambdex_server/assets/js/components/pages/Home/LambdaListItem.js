@@ -36,7 +36,6 @@ class LambdaListItem extends Component {
           </Columns.Column>
           <Columns.Column>
             <LambdaListChart data={lambda.executions} dataKey={"count"}/>
-            <Trend text="last hour" number={5} arrowIcon="angle-down"/>
           </Columns.Column>
           <Columns.Column>
             <LambdaListChart data={lambda.durations} dataKey={"duration"}/>
