@@ -1,4 +1,4 @@
-defmodule LambdexCore.LambdaSupervisor do
+defmodule LambdexCore.LambdaExecution do
   use GenServer
 
   alias LambdexCore.Execution
@@ -11,7 +11,7 @@ defmodule LambdexCore.LambdaSupervisor do
 
   @impl true
   def init(lambda) do
-    #start_supervised_task(lambda)
+    # start_supervised_task(lambda)
     state = %{
       lambda: lambda,
       execution: %Execution{}
@@ -22,12 +22,13 @@ defmodule LambdexCore.LambdaSupervisor do
 
   @impl true
   def handle_info({:DOWN, _ref, :process, pid, reason}, state) do
-    IO.puts "#{inspect(reason)} by #{inspect(pid)}"
-    #{:stop, reason, state}
+    IO.puts("#{inspect(reason)} by #{inspect(pid)}")
+    # {:stop, reason, state}
     {:noreply, state}
   end
+
   def handle_info(msg, state) do
-    IO.inspect msg, label: "msg"
+    IO.inspect(msg, label: "msg")
     {:noreply, state}
   end
 
@@ -45,6 +46,7 @@ defmodule LambdexCore.LambdaSupervisor do
       end
 
     duration = System.monotonic_time(:milliseconds) - start_time
+
     execution =
       state.execution
       |> Execution.put_executed_at(at_time)
