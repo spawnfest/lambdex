@@ -18,7 +18,7 @@ defmodule LambdexServer.Lambdas do
 
   """
   def list_lambdas(user_id) do
-    query = from(l in Lambda, where: [user_id: ^user_id])
+    query = from(l in Lambda, where: [user_id: ^user_id], order_by: [desc: l.inserted_at])
     Repo.all(query)
     |> Enum.map(fn lambda -> add_execution_data(lambda) end)
   end
@@ -158,7 +158,9 @@ defmodule LambdexServer.Lambdas do
   end
 
   def list_lambda_executions(user_id, lambda_id) do
-    query = from(le in LambdaExecution, where: [user_id: ^user_id, lambda_id: ^lambda_id])
+    query = from(l in Lambda, where: [user_id: ^user_id, id: ^lambda_id])
+    lambda = Repo.one!(query)
+    query = from(le in LambdaExecution, where: [lambda_id: ^lambda_id])
     Repo.all(query)
   end
 
