@@ -6,6 +6,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, options) => ({
+  mode: 'development',
+  devtool: 'source-map',
   resolve: {
     alias: {
       '_variables.sass': path.resolve(__dirname, 'css/_variables.sass'),
