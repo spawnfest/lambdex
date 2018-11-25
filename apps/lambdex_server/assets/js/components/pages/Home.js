@@ -4,24 +4,23 @@ import Section from "react-bulma-components/lib/components/section";
 import client from "../../services/apiClient";
 
 class Home extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {data: []};
 
     client.get("/api/lambdas").then((ret) => {
-      console.log(ret.data);
       this.setState({data: ret.data.data});
     });
   }
 
-  render() {
-    const itemClicked = (lambda) => {
-      alert(lambda.name);
-    };
+  editClicked(lambda) {
+    window.location = `/edit/${lambda.id}`;
+  };
 
+  render() {
     return <Section>
       {this.state.data.map((lambda, i) => <LambdaListItem key={i} lambda={lambda}
-                                               onItemClicked={itemClicked.bind(this, lambda)}/>)}
+                                                          onItemEdit={this.editClicked.bind(this, lambda)}/>)}
     </Section>
   }
 }

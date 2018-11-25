@@ -1,12 +1,13 @@
 import React from 'react';
-import {Box} from "react-bulma-components";
 import Columns from "react-bulma-components/lib/components/columns";
 import Heading from "react-bulma-components/lib/components/heading";
 import Button from "react-bulma-components/lib/components/button";
-import Icon from "react-bulma-components/lib/components/icon";
 import './LambdaListItem.scss';
 import LambdaListChart from "./LambdaListChart";
 import Trend from "../../common/Trend";
+import Box from "react-bulma-components/lib/components/box";
+import FAIcon from "../../common/FAIcon";
+import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 const mockDataChart = [
   {hour: 12, runs: 2, timing: 7, failures: 1},
@@ -15,7 +16,7 @@ const mockDataChart = [
   {hour: 15, runs: 1, timing: 3, failures: 9}
 ];
 
-const LambdaListItem = ({lambda, onItemClicked})=>(
+const LambdaListItem = ({lambda, onItemEdit})=>(
   <Box>
     <Columns>
       <Columns.Column>
@@ -30,10 +31,9 @@ const LambdaListItem = ({lambda, onItemClicked})=>(
       </Columns.Column>
       <Columns.Column>
         <Button.Group>
-          <Button color="info" onClick={onItemClicked}><Icon icon="edit"/></Button>
-          <Button color="info"><Icon icon="edit"/></Button>
-          <Button color="info"><Icon icon="edit"/></Button>
-          <Button color="info"><Icon icon="cross"/></Button>
+          <Button color="info" onClick={onItemEdit}><FAIcon icon={faCogs}/></Button>
+          <Button color="info"><FAIcon icon={faRunning}/></Button>
+          <Button color="danger"><FAIcon icon={faTrash}/></Button>
         </Button.Group>
       </Columns.Column>
     </Columns>
