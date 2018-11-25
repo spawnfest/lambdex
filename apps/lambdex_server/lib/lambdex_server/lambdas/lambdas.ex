@@ -152,6 +152,11 @@ defmodule LambdexServer.Lambdas do
     Repo.all(LambdaExecution)
   end
 
+  def list_lambda_executions(lambda_id) do
+    query = from(le in LambdaExecution, where: le.lambda_id == ^lambda_id)
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single lambda_execution.
 

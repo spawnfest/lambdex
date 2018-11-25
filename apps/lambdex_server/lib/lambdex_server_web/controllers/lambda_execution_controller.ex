@@ -43,6 +43,11 @@ defmodule LambdexServerWeb.LambdaExecutionController do
     end
   end
 
+  def get_lambda_executions(conn, %{"id" => lambda_id}) do
+    lambda_executions = Lambdas.list_lambda_executions(lambda_id)
+    render(conn, "index.json", lambda_executions: lambda_executions)
+  end
+
   def run_lambda(conn, %{"path" => path}) do
     lambda = Lambdas.get_lambda_by_path!(path)
 
