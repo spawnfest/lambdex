@@ -19,6 +19,23 @@ defmodule LambdexServer.Lambdas do
   """
   def list_lambdas do
     Repo.all(Lambda)
+    |> Enum.map(fn lambda -> add_execution_data(lambda) end)
+  end
+
+  defp add_execution_data(lambda) do
+    {:ok, id} = Ecto.UUID.dump(lambda.id)
+    {:ok, results} = Repo.query("""
+    SELECT  to_timestamp(floor((extract('epoch' from date) / 300)) * 300) interval_alias1,
+    coalesce(data.c, 0)
+    from generate_series(now() - interval '1 hour', now(), '5 minutes'::interval) date
+    left outer join (SELECT count(*) c,
+                    to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) AT TIME ZONE 'UTC' as interval_alias
+             FROM lambda_executions
+             where lambda_id = $1
+             GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 300)) * 300)
+        """, [id])
+    
+    Map.put(lambda, :executions, Enum.map(results.rows, fn [timestamp, count] -> %{count: count, timestamp: timestamp} end))
   end
 
   @doc """

@@ -24,7 +24,7 @@ const LambdaListItem = ({lambda, onItemEdit, onItemDetails, onItemDelete})=>(
         <div className="lambda-path">/{lambda.path}</div>
       </Columns.Column>
       <Columns.Column>
-        <LambdaListChart data={mockDataChart} dataKey={"runs"}/>
+        <LambdaListChart data={lambda.executions} dataKey={"count"}/>
         <Trend text="last hour" number={5} arrowIcon="angle-down"/>
       </Columns.Column>
       <Columns.Column>

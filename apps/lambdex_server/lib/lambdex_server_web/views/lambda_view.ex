@@ -17,7 +17,8 @@ defmodule LambdexServerWeb.LambdaView do
       path: lambda.path,
       params: lambda.params,
       code: lambda.code,
-      enabled: lambda.enabled
+      enabled: lambda.enabled,
+      executions: lambda.executions
     }
   end
 end
