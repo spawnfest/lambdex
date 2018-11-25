@@ -28,7 +28,7 @@ const LambdaListItem = ({lambda, onItemEdit, onItemDetails, onItemDelete})=>(
         <Trend text="last hour" number={5} arrowIcon="angle-down"/>
       </Columns.Column>
       <Columns.Column>
-        <LambdaListChart data={mockDataChart} dataKey={"timing"}/>
+        <LambdaListChart data={lambda.durations} dataKey={"duration"}/>
       </Columns.Column>
       <Columns.Column>
         <Button.Group>

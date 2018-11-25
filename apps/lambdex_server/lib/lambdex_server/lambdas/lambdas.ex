@@ -24,7 +24,7 @@ defmodule LambdexServer.Lambdas do
 
   defp add_execution_data(lambda) do
     {:ok, id} = Ecto.UUID.dump(lambda.id)
-    {:ok, results} = Repo.query("""
+    {:ok, executions} = Repo.query("""
     SELECT  to_timestamp(floor((extract('epoch' from date) / 300)) * 300) interval_alias1,
     coalesce(data.c, 0)
     from generate_series(now() - interval '1 hour', now(), '5 minutes'::interval) date
@@ -34,8 +34,21 @@ defmodule LambdexServer.Lambdas do
              where lambda_id = $1
              GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 300)) * 300)
         """, [id])
-    
-    Map.put(lambda, :executions, Enum.map(results.rows, fn [timestamp, count] -> %{count: count, timestamp: timestamp} end))
+    {:ok, durations} = Repo.query("""
+    SELECT  to_timestamp(floor((extract('epoch' from date) / 300)) * 300) interval_alias1,
+            coalesce(data.c, 0)
+    from generate_series(now() - interval '1 hour', now(), '5 minutes'::interval) date
+    left outer join (SELECT sum((data->>'duration')::float) c,
+                            to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) AT TIME ZONE 'UTC' as interval_alias
+                     FROM lambda_executions
+                     WHERE lambda_id = $1
+                     GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 300)) * 300)
+    """, [id])
+
+    lambda
+      |> Map.put(:executions, Enum.map(executions.rows, fn [timestamp, count] -> %{count: count, timestamp: timestamp} end))
+      |> Map.put(:durations, Enum.map(durations.rows, fn [timestamp, duration] -> %{duration: duration, timestamp: timestamp} end))
+
   end
 
   @doc """
