@@ -128,5 +128,5 @@ Clicking on the `Run` button will run the lambda manually.
 - Allow for more complicated and usefull execution triggering logic, e.g. read from AWS SQS or RabbitMQ queues, receive Google alerts, IFTTT-style trigger rules, automatic 3rd party HTTP API polling.
 - Soft real-time update of UI via channels to reflect a lamnbda's execution statistics.
 
-## Final worlds
+## Final words
 Lambda! Lambda! Lambda! Lambda! Lambda! Lambda! Lambdaaaa!
