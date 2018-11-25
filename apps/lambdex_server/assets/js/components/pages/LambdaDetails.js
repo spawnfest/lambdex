@@ -16,7 +16,7 @@ import Heading from "react-bulma-components/lib/components/heading";
 import FAIcon from "../common/FAIcon";
 import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 import RunLambdaModal from "../common/RunLambdaModal";
-import moment from "moment";
+import LambdaDetailRow from "./LambdaDetails/LambdaDetailRow";
 
 class LambdaDetails extends Component {
   constructor(props) {
@@ -113,18 +113,7 @@ class LambdaDetails extends Component {
               </tr>
               </thead>
               <tbody>
-              {this.state.executions.map((item, i) => {
-                return <tr key={i}>
-                  <td>{moment.unix(item.data["executed_at"]).fromNow()}</td>
-                  <td>{item.data.duration} ms</td>
-                  <td>
-                    <Button.Group>
-                      <Button color="info">params</Button>
-                      <Button color="info">result</Button>
-                    </Button.Group>
-                  </td>
-                </tr>
-              })}
+              {this.state.executions.map((item, i) => <LambdaDetailRow key={i} execution={item}/>)}
               </tbody>
             </Table>}
           </Panel.Block>
