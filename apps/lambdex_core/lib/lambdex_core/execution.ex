@@ -10,9 +10,11 @@ defmodule LambdexCore.Execution do
     output: "",
     sign: nil,
     duration: 0,
-    max_cpu_used: 0,
+    reductions: 0,
     request_id: "",
-    status: nil
+    status: nil,
+    params: %{},
+    envs: %{}
 
   def put_duration(%__MODULE__{} = execution, duration) do
     %{execution | duration: duration}
@@ -40,5 +42,17 @@ defmodule LambdexCore.Execution do
 
   def put_executed_at(%__MODULE__{} = execution, time) do
     %{execution | executed_at: time}
+  end
+
+  def put_reductions(%__MODULE__{} = execution, reductions) do
+    %{execution | reductions: reductions}
+  end
+
+  def put_params(%__MODULE__{} = execution, params) do
+    %{execution | params: params}
+  end
+
+  def put_envs(%__MODULE__{} = execution, envs) do
+    %{execution | envs: envs}
   end
 end

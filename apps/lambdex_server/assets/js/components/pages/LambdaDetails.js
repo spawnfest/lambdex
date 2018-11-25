@@ -16,6 +16,7 @@ import Heading from "react-bulma-components/lib/components/heading";
 import FAIcon from "../common/FAIcon";
 import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 import RunLambdaModal from "../common/RunLambdaModal";
+import moment from "moment";
 
 const
   mockDataChart = [
@@ -117,25 +118,22 @@ class LambdaDetails extends Component {
               <tr>
                 <th>ran at</th>
                 <th>took</th>
-                <th>launched from</th>
                 <th>show</th>
               </tr>
               </thead>
               <tbody>
-              {mockDataLastRuns.map((item, i) => (
-                <tr key={i}>
-                  <td>{item.ranAt}</td>
-                  <td>{item.took}</td>
-                  <td>{item.launchedFrom}</td>
+              {this.state.executions.map((item, i) => {
+                return <tr key={i}>
+                  <td>{moment.unix(item.data["executed_at"]).fromNow()}</td>
+                  <td>{item.data.duration} ms</td>
                   <td>
                     <Button.Group>
-                      <Button color="info">call info</Button>
                       <Button color="info">params</Button>
-                      <Button color="info">output</Button>
+                      <Button color="info">result</Button>
                     </Button.Group>
                   </td>
                 </tr>
-              ))}
+              })}
               </tbody>
             </Table>
           </Panel.Block>

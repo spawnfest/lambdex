@@ -9,16 +9,17 @@ defmodule LambdexServer.Lambdas do
   alias LambdexServer.Lambdas.Lambda
 
   @doc """
-  Returns the list of lambdas.
+  Returns the list of lambdas for a given user ID.
 
   ## Examples
 
-      iex> list_lambdas()
+      iex> list_lambdas(user.id)
       [%Lambda{}, ...]
 
   """
-  def list_lambdas do
-    Repo.all(Lambda)
+  def list_lambdas(user_id) do
+    query = from(l in Lambda, where: [user_id: ^user_id], order_by: [desc: l.inserted_at])
+    Repo.all(query)
     |> Enum.map(fn lambda -> add_execution_data(lambda) end)
   end
 
@@ -58,17 +59,20 @@ defmodule LambdexServer.Lambdas do
 
   ## Examples
 
-      iex> get_lambda!(123)
+      iex> get_lambda!(user.id, 123)
       %Lambda{}
 
-      iex> get_lambda!(456)
+      iex> get_lambda!(user.id, 456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_lambda!(id), do: Repo.get!(Lambda, id)
+  def get_lambda!(user_id, id) do
+    query = from(l in Lambda, where: [user_id: ^user_id, id: ^id])
+    Repo.one(query)
+  end
 
-  def get_lambda_by_path!(path) do
-    query = from(l in Lambda, where: l.path == ^path)
+  def get_lambda_by_path!(user_id, path) do
+    query = from(l in Lambda, where: [user_id: ^user_id, path: ^path])
     Repo.one(query)
   end
 
@@ -144,12 +148,20 @@ defmodule LambdexServer.Lambdas do
 
   ## Examples
 
-      iex> list_lambda_executions()
+      iex> list_lambda_executions(user.id)
       [%LambdaExecution{}, ...]
 
   """
-  def list_lambda_executions do
-    Repo.all(LambdaExecution)
+  def list_lambda_executions(user_id) do
+    query = from(le in LambdaExecution, where: [user_id: ^user_id])
+    Repo.all(query)
+  end
+
+  def list_lambda_executions(user_id, lambda_id) do
+    query = from(l in Lambda, where: [user_id: ^user_id, id: ^lambda_id])
+    lambda = Repo.one!(query)
+    query = from(le in LambdaExecution, where: [lambda_id: ^lambda_id], order_by: [desc: le.inserted_at])
+    Repo.all(query)
   end
 
   @doc """

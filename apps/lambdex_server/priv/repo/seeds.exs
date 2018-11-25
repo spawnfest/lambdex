@@ -17,12 +17,12 @@ alias LambdexServer.Lambdas.LambdaExecution
 
 %User{id: user_id} =
   %User{}
-  |> User.changeset(%{email: "test@fiqus.com", name: "test user", password: "password"})
+  |> User.changeset(%{email: "test@lambdex.com", name: "test user", password: "password"})
   |> Repo.insert!()
 
 Enum.map(1..10, fn i ->
   %Lambda{id: lambda_id} =
-    Repo.insert!(%Lambda{code: ~s[fn -> "hello lambda!" end], name: "lambda ##{i}", params: %{}, path: "lambda#{i}", user_id: user_id})
+    Repo.insert!(%Lambda{code: ~s[fn(environment, client_params) -> "hello lambda!" end], name: "lambda ##{i}", params: %{}, path: "lambda#{i}", user_id: user_id})
 
 
   Enum.map(1..100, fn j ->

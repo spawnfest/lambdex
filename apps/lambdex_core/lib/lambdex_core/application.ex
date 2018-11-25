@@ -6,12 +6,11 @@ defmodule LambdexCore.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
 
     # List all child processes to be supervised
     children = [
       {DynamicSupervisor, strategy: :one_for_one, name: LambdexCore.ExecutionSupervisor},
-      {Task.Supervisor, name: LambdexCore.LambdaTaskSupervisor}
+      #{Task.Supervisor, name: LambdexCore.LambdaTaskSupervisor}
     ]
 
     opts = [strategy: :one_for_one, name: LambdexCore.Supervisor]

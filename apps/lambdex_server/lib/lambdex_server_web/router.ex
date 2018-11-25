@@ -27,6 +27,7 @@ defmodule LambdexServerWeb.Router do
       pipe_through :auth
 
       resources "/lambdas", LambdaController
+      get "/lambdas/:id/executions", LambdaExecutionController, :get_lambda_executions
       resources "/lambda_executions", LambdaExecutionController
       post "/lambdas/:path", LambdaExecutionController, :run_lambda
 
