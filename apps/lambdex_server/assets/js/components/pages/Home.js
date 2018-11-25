@@ -7,6 +7,7 @@ import Heading from "react-bulma-components/lib/components/heading";
 import Button from "react-bulma-components/lib/components/button";
 import client from "../../services/apiClient";
 import PageLoader from "../common/PageLoader";
+import RunLambdaModal from "../common/RunLambdaModal";
 
 class Home extends Component {
   constructor(props) {
@@ -39,6 +40,10 @@ class Home extends Component {
     window.location = "/create";
   };
 
+  runClicked() {
+    window.location = "/create";
+  };
+
   renderHeader() {
     return <Box className="lambda-list-header">
     <Columns>
@@ -67,7 +72,8 @@ class Home extends Component {
       {this.state.data.map((lambda, i) => <LambdaListItem key={i} lambda={lambda}
                                                           onItemDetails={this.detailsClicked.bind(this, lambda)}
                                                           onItemEdit={this.editClicked.bind(this, lambda)}
-                                                          onItemDelete={this.deleteClicked.bind(this, lambda)}/>)}
+                                                          onItemDelete={this.deleteClicked.bind(this, lambda)}
+                                                          onItemRun={this.runClicked.bind(this, lambda)}/>)}
     </Section>
   }
 }
