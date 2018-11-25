@@ -1,23 +1,30 @@
-import React from 'react';
+import React, {Component} from 'react';
 import LambdaListItem from "./Home/LambdaListItem";
 import Section from "react-bulma-components/lib/components/section";
+import client from "../../services/apiClient";
 
-const data = [
-  {name: "Lambda #1"},
-  {name: "Lambda #2"},
-  {name: "Lambda #3"},
-  {name: "Lambda #4"},
-  {name: "Lambda #5"},
-];
+class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state = {data: []};
 
-const Home = () => {
-  const itemClicked = (lambda) => {
-    alert(lambda.name);
-  };
-  return <Section>
-    {data.map((lambda, i)=><LambdaListItem key={i} name={lambda.name} onItemClicked={itemClicked.bind(this, lambda)}/>)}
-  </Section>
-};
+    client.get("/api/lambdas").then((ret) => {
+      console.log(ret.data);
+      this.setState({data: ret.data.data});
+    });
+  }
+
+  render() {
+    const itemClicked = (lambda) => {
+      alert(lambda.name);
+    };
+
+    return <Section>
+      {this.state.data.map((lambda, i) => <LambdaListItem key={i} name={lambda.name}
+                                               onItemClicked={itemClicked.bind(this, lambda)}/>)}
+    </Section>
+  }
+}
 
 
 export default Home
