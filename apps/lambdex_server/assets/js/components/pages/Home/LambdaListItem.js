@@ -7,7 +7,7 @@ import './LambdaListItem.scss';
 import LambdaListChart from "./LambdaListChart";
 import Trend from "../../common/Trend";
 import FAIcon from "../../common/FAIcon";
-import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCogs, faInfo, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 const mockDataChart = [
   {hour: 12, runs: 2, timing: 7, failures: 1},
@@ -16,7 +16,7 @@ const mockDataChart = [
   {hour: 15, runs: 1, timing: 3, failures: 9}
 ];
 
-const LambdaListItem = ({lambda, onItemEdit})=>(
+const LambdaListItem = ({lambda, onItemEdit, onItemDetails})=>(
   <Box>
     <Columns>
       <Columns.Column>
@@ -32,6 +32,7 @@ const LambdaListItem = ({lambda, onItemEdit})=>(
       </Columns.Column>
       <Columns.Column>
         <Button.Group>
+          <Button color="info" onClick={onItemDetails}><FAIcon icon={faInfo}/></Button>
           <Button color="info" onClick={onItemEdit}><FAIcon icon={faCogs}/></Button>
           <Button color="info"><FAIcon icon={faRunning}/></Button>
           <Button color="danger"><FAIcon icon={faTrash}/></Button>

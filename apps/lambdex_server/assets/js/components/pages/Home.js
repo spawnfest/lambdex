@@ -5,11 +5,12 @@ import Section from "react-bulma-components/lib/components/section";
 import Columns from "react-bulma-components/lib/components/columns";
 import Heading from "react-bulma-components/lib/components/heading";
 import client from "../../services/apiClient";
+import PageLoader from "../common/PageLoader";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {data: []};
+    this.state = {data: null};
 
     client.get("/api/lambdas").then((ret) => {
       this.setState({data: ret.data.data});
@@ -18,6 +19,10 @@ class Home extends Component {
 
   editClicked(lambda) {
     window.location = `/edit/${lambda.id}`;
+  };
+
+  detailsClicked(lambda) {
+    window.location = `/details/${lambda.id}`;
   };
 
   renderHeader() {
@@ -39,9 +44,13 @@ class Home extends Component {
   }
 
   render() {
+    if (this.state.data == null) {
+      return <PageLoader/>
+    }
     return <Section>
       {this.renderHeader()}
       {this.state.data.map((lambda, i) => <LambdaListItem key={i} lambda={lambda}
+                                                          onItemDetails={this.detailsClicked.bind(this, lambda)}
                                                           onItemEdit={this.editClicked.bind(this, lambda)}/>)}
     </Section>
   }
