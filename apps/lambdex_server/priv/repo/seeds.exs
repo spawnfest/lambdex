@@ -9,3 +9,23 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias LambdexServer.Repo
+alias LambdexServer.Accounts.User
+alias LambdexServer.Lambdas.Lambda
+alias LambdexServer.Lambdas.LambdaExecution
+
+%User{id: user_id} =
+  %User{}
+  |> User.changeset(%{email: "test@fiqus.com", name: "test user", password: "password"})
+  |> Repo.insert!()
+
+Enum.map(1..10, fn i ->
+  %Lambda{id: lambda_id} =
+    Repo.insert!(%Lambda{code: "", name: "lambda ##{i}", params: %{}, path: "lambda#{i}", user_id: user_id})
+
+
+  Enum.map(1..100, fn j ->
+    Repo.insert!(%LambdaExecution{data: %{}, lambda_id: lambda_id})
+  end)
+end)
