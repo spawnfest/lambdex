@@ -20,7 +20,7 @@ class Home extends Component {
     };
 
     return <Section>
-      {this.state.data.map((lambda, i) => <LambdaListItem key={i} name={lambda.name}
+      {this.state.data.map((lambda, i) => <LambdaListItem key={i} lambda={lambda}
                                                onItemClicked={itemClicked.bind(this, lambda)}/>)}
     </Section>
   }

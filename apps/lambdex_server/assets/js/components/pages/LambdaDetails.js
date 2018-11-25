@@ -5,13 +5,21 @@ import Panel from "react-bulma-components/lib/components/panel";
 import Table from "react-bulma-components/lib/components/table";
 import Button from "react-bulma-components/lib/components/button";
 import Icon from "react-bulma-components/lib/components/icon";
+import LambdaDetailsChart from "./LambdaDetails/LambdaDetailsChart";
 
-const data = [
-  {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
-  {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
-  {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
-  {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
-];
+const
+  mockDataChart = [
+    {hour: 12, runs: 2, timing: 7, failures: 1},
+    {hour: 13, runs: 5, timing: 4, failures: 6},
+    {hour: 14, runs: 3, timing: 12, failures: 3},
+    {hour: 15, runs: 1, timing: 3, failures: 9}
+  ],
+  mockDataLastRuns = [
+    {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
+    {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
+    {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
+    {ranAt: "01/01/2019 14:30:33", took:"3sec", launchedFrom:"REST"},
+  ];
 
 const LambdaDetails = () => (
   <Section>
@@ -20,7 +28,7 @@ const LambdaDetails = () => (
         <Panel>
           <Panel.Header>Runs</Panel.Header>
           <Panel.Block>
-            test
+            <LambdaDetailsChart data={mockDataChart} dataKey={"runs"}/>
           </Panel.Block>
         </Panel>
       </Columns.Column>
@@ -28,7 +36,7 @@ const LambdaDetails = () => (
         <Panel>
           <Panel.Header>Timing</Panel.Header>
           <Panel.Block>
-            test
+            <LambdaDetailsChart data={mockDataChart} dataKey={"timing"}/>
           </Panel.Block>
         </Panel>
       </Columns.Column>
@@ -36,7 +44,7 @@ const LambdaDetails = () => (
         <Panel>
           <Panel.Header>Failures</Panel.Header>
           <Panel.Block>
-            test
+            <LambdaDetailsChart data={mockDataChart} dataKey={"failures"}/>
           </Panel.Block>
         </Panel>
       </Columns.Column>
@@ -54,7 +62,7 @@ const LambdaDetails = () => (
             </tr>
           </thead>
           <tbody>
-          {data.map((item, i)=> (
+          {mockDataLastRuns.map((item, i)=> (
             <tr key={i}>
               <td>{item.ranAt}</td>
               <td>{item.took}</td>
