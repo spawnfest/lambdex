@@ -9,4 +9,5 @@ defmodule LambdexServer.Auth.AuthAccessPipeline do
   plug(Guardian.Plug.VerifyHeader)
   plug(Guardian.Plug.EnsureAuthenticated)
   plug(Guardian.Plug.LoadResource)
+  plug(LambdexServer.Auth.Plug.CurrentUser)
 end
