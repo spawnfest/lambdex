@@ -29,7 +29,6 @@ defmodule LambdexCore.LambdaExecution do
         {lambda_fn, _params} = Code.eval_string(state.lambda_source)
         {:ok, Kernel.apply(lambda_fn, [state.lambda_envs, state.lambda_params])}
       rescue
-        #CompileError ->
         error ->
           {:error, error}
       end
@@ -42,6 +41,8 @@ defmodule LambdexCore.LambdaExecution do
       |> Execution.put_duration(duration)
       |> Execution.put_reductions(reductions)
       |> Execution.put_result(result)
+      |> Execution.put_params(state.lambda_params)
+      |> Execution.put_envs(state.lambda_envs)
 
     {:reply, execution, %{state | execution: execution}}
   end
@@ -54,9 +55,9 @@ defmodule LambdexCore.LambdaExecution do
     GenServer.call(pid, :run)
   end
 
-  def start_supervised_task(lambda) do
-    Task.Supervisor.async_nolink(LambdexCore.LambdaTaskSupervisor, lambda.code, lambda.params)
-  end
+  # def start_supervised_task(lambda) do
+  #   Task.Supervisor.async_nolink(LambdexCore.LambdaTaskSupervisor, lambda.code, lambda.params)
+  # end
 
   defp get_process_reduction_count() do
     {:ok, reductions} = Keyword.fetch(:erlang.process_info(self()), :reductions)

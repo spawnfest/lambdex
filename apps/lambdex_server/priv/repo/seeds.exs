@@ -22,7 +22,7 @@ alias LambdexServer.Lambdas.LambdaExecution
 
 Enum.map(1..10, fn i ->
   %Lambda{id: lambda_id} =
-    Repo.insert!(%Lambda{code: ~s[fn -> "hello lambda!" end], name: "lambda ##{i}", params: %{}, path: "lambda#{i}", user_id: user_id})
+    Repo.insert!(%Lambda{code: ~s[fn(environment, client_params) -> "hello lambda!" end], name: "lambda ##{i}", params: %{}, path: "lambda#{i}", user_id: user_id})
 
 
   Enum.map(1..100, fn j ->
