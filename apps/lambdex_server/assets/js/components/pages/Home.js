@@ -40,10 +40,6 @@ class Home extends Component {
     window.location = "/create";
   }
 
-  runClicked() {
-    window.location = "/create";
-  };
-
   renderHeader() {
     return <Box className="lambda-list-header">
     <Columns>
@@ -72,8 +68,7 @@ class Home extends Component {
       {this.state.data.map((lambda, i) => <LambdaListItem key={i} lambda={lambda}
                                                           onItemDetails={this.detailsClicked.bind(this, lambda)}
                                                           onItemEdit={this.editClicked.bind(this, lambda)}
-                                                          onItemDelete={this.deleteClicked.bind(this, lambda)}
-                                                          onItemRun={this.runClicked.bind(this, lambda)}/>)}
+                                                          onItemDelete={this.deleteClicked.bind(this, lambda)}/>)}
     </Section>
   }
 }
