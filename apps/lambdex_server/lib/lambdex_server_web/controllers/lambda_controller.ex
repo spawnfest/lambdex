@@ -7,7 +7,7 @@ defmodule LambdexServerWeb.LambdaController do
   action_fallback LambdexServerWeb.FallbackController
 
   def index(conn, _params) do
-    lambdas = Lambdas.list_lambdas()
+    lambdas = Lambdas.list_lambdas(conn.assigns.current_user.id)
     render(conn, "index.json", lambdas: lambdas)
   end
 
@@ -22,12 +22,12 @@ defmodule LambdexServerWeb.LambdaController do
   end
 
   def show(conn, %{"id" => id}) do
-    lambda = Lambdas.get_lambda!(id)
+    lambda = Lambdas.get_lambda!(conn.assigns.current_user.id, id)
     render(conn, "show.json", lambda: lambda)
   end
 
   def update(conn, %{"id" => id, "lambda" => lambda_params}) do
-    lambda = Lambdas.get_lambda!(id)
+    lambda = Lambdas.get_lambda!(conn.assigns.current_user.id, id)
 
     with {:ok, %Lambda{} = lambda} <- Lambdas.update_lambda(lambda, lambda_params) do
       render(conn, "show.json", lambda: lambda)
@@ -35,7 +35,7 @@ defmodule LambdexServerWeb.LambdaController do
   end
 
   def delete(conn, %{"id" => id}) do
-    lambda = Lambdas.get_lambda!(id)
+    lambda = Lambdas.get_lambda!(conn.assigns.current_user.id, id)
 
     with {:ok, %Lambda{}} <- Lambdas.delete_lambda(lambda) do
       send_resp(conn, :no_content, "")
