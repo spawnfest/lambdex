@@ -18,27 +18,17 @@ import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 import RunLambdaModal from "../common/RunLambdaModal";
 import moment from "moment";
 
-const
-  mockDataChart = [
-    {hour: 12, runs: 2, timing: 7, failures: 1},
-    {hour: 13, runs: 5, timing: 4, failures: 6},
-    {hour: 14, runs: 3, timing: 12, failures: 3},
-    {hour: 15, runs: 1, timing: 3, failures: 9}
-  ],
-  mockDataLastRuns = [
-    {ranAt: "01/01/2019 14:30:33", took: "3sec", launchedFrom: "REST"},
-    {ranAt: "01/01/2019 14:30:33", took: "3sec", launchedFrom: "REST"},
-    {ranAt: "01/01/2019 14:30:33", took: "3sec", launchedFrom: "REST"},
-    {ranAt: "01/01/2019 14:30:33", took: "3sec", launchedFrom: "REST"},
-  ];
-
 class LambdaDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = {lambda: null, showModal:false};
+    this.state = {lambda: null, showModal:false, executions: null};
 
     client.get(`/api/lambdas/${props.match.params.id}`).then((ret) => {
       this.setState({lambda: ret.data.data})
+    });
+
+    client.get(`/api/lambdas/${props.match.params.id}/executions`).then((ret) => {
+      this.setState({executions: ret.data.data})
     })
   }
 
@@ -89,7 +79,7 @@ class LambdaDetails extends Component {
             <Panel>
               <Panel.Header>Runs</Panel.Header>
               <Panel.Block>
-                <LambdaDetailsChart data={mockDataChart} dataKey={"runs"}/>
+                <LambdaDetailsChart data={this.state.lambda.executions} dataKey={"count"}/>
               </Panel.Block>
             </Panel>
           </Columns.Column>
@@ -97,7 +87,7 @@ class LambdaDetails extends Component {
             <Panel>
               <Panel.Header>Timing</Panel.Header>
               <Panel.Block>
-                <LambdaDetailsChart data={mockDataChart} dataKey={"timing"}/>
+                <LambdaDetailsChart data={this.state.lambda.durations} dataKey={"duration"}/>
               </Panel.Block>
             </Panel>
           </Columns.Column>
@@ -105,7 +95,7 @@ class LambdaDetails extends Component {
             <Panel>
               <Panel.Header>Failures</Panel.Header>
               <Panel.Block>
-                <LambdaDetailsChart data={mockDataChart} dataKey={"failures"}/>
+                <LambdaDetailsChart data={this.state.lambda.errors} dataKey={"count"}/>
               </Panel.Block>
             </Panel>
           </Columns.Column>
@@ -113,7 +103,8 @@ class LambdaDetails extends Component {
         <Panel>
           <Panel.Header>Last Runs</Panel.Header>
           <Panel.Block>
-            <Table>
+            {!this.state.executions && <PageLoader/>}
+            {this.state.executions && <Table>
               <thead>
               <tr>
                 <th>ran at</th>
@@ -135,7 +126,7 @@ class LambdaDetails extends Component {
                 </tr>
               })}
               </tbody>
-            </Table>
+            </Table>}
           </Panel.Block>
         </Panel>
         <RunLambdaModal lambda={this.state.lambda}

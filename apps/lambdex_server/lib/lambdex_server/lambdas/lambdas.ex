@@ -32,7 +32,8 @@ defmodule LambdexServer.Lambdas do
     left outer join (SELECT count(*) c,
                     to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) AT TIME ZONE 'UTC' as interval_alias
              FROM lambda_executions
-             where lambda_id = $1
+             where data->>'status' != 'error'
+                   AND lambda_id = $1
              GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 300)) * 300)
         """, [id])
     {:ok, durations} = Repo.query("""
@@ -42,7 +43,8 @@ defmodule LambdexServer.Lambdas do
     left outer join (SELECT sum((data->>'duration')::float) c,
                             to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) AT TIME ZONE 'UTC' as interval_alias
                      FROM lambda_executions
-                     WHERE lambda_id = $1
+                     WHERE data->>'status' != 'error'
+                           AND lambda_id = $1
                      GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 300)) * 300)
     """, [id])
 
@@ -68,11 +70,58 @@ defmodule LambdexServer.Lambdas do
   """
   def get_lambda!(user_id, id) do
     query = from(l in Lambda, where: [user_id: ^user_id, id: ^id])
-    Repo.one(query)
+    add_detailed_execution_data(Repo.one(query))
   end
 
   def get_lambda_by_path!(user_id, path) do
     query = from(l in Lambda, where: [user_id: ^user_id, path: ^path])
+    Repo.one(query)
+  end
+
+  defp add_detailed_execution_data(lambda) do
+    {:ok, id} = Ecto.UUID.dump(lambda.id)
+    {:ok, executions} = Repo.query("""
+    SELECT  to_timestamp(floor((extract('epoch' from date) / 1800)) * 1800) interval_alias1,
+    coalesce(data.c, 0)
+    from generate_series(now() - interval '12 hour', now(), '30 minutes'::interval) date
+    left outer join (SELECT count(*) c,
+                to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) AT TIME ZONE 'UTC' as interval_alias
+         FROM lambda_executions
+         WHERE data->>'status' != 'error'
+               AND lambda_id = $1
+         GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 1800)) * 1800)
+    """, [id])
+    {:ok, durations} = Repo.query("""
+    SELECT  to_timestamp(floor((extract('epoch' from date) / 1800)) * 1800) interval_alias1,
+            coalesce(data.c, 0)
+    from generate_series(now() - interval '12 hour', now(), '30 minutes'::interval) date
+    left outer join (SELECT sum((data->>'duration')::float) c,
+                            to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) AT TIME ZONE 'UTC' as interval_alias
+                     FROM lambda_executions
+                     WHERE data->>'status' != 'error'
+                           AND lambda_id = $1
+                     GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 1800)) * 1800)
+    """, [id])
+    {:ok, errors} = Repo.query("""
+    SELECT  to_timestamp(floor((extract('epoch' from date) / 1800)) * 1800) interval_alias1,
+    coalesce(data.c, 0)
+    from generate_series(now() - interval '12 hour', now(), '30 minutes'::interval) date
+    left outer join (SELECT count(*) c,
+                to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) AT TIME ZONE 'UTC' as interval_alias
+         FROM lambda_executions
+         WHERE data->>'status' = 'error'
+               AND lambda_id = $1
+         GROUP BY interval_alias) as data on data.interval_alias = to_timestamp(floor((extract('epoch' from date) / 1800)) * 1800)
+    """, [id])
+    lambda
+    |> Map.put(:executions, Enum.map(executions.rows, fn [timestamp, count] -> %{count: count, timestamp: timestamp} end))
+    |> Map.put(:durations, Enum.map(durations.rows, fn [timestamp, duration] -> %{duration: duration, timestamp: timestamp} end))
+    |> Map.put(:errors, Enum.map(errors.rows, fn [timestamp, count] -> %{count: count, timestamp: timestamp} end))
+
+  end
+
+  def get_lambda_by_path!(path) do
+    query = from(l in Lambda, where: l.path == ^path)
     Repo.one(query)
   end
 

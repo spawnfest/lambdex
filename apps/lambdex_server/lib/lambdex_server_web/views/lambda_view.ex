@@ -19,7 +19,8 @@ defmodule LambdexServerWeb.LambdaView do
       code: lambda.code,
       enabled: lambda.enabled,
       executions: Map.get(lambda, :executions, []),
-      durations: Map.get(lambda, :durations, [])
+      durations: Map.get(lambda, :durations, []),
+      errors: Map.get(lambda, :errors, [])
     }
   end
 end
