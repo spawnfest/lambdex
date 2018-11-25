@@ -35,11 +35,12 @@ defmodule LambdexCore.LambdaExecution do
       end
 
     duration = System.monotonic_time(:milliseconds) - start_time
-
+    reductions = get_process_reduction_count()
     execution =
       state.execution
       |> Execution.put_executed_at(at_time)
       |> Execution.put_duration(duration)
+      |> Executino.put_reductions(reductions)
       |> Execution.put_result(result)
 
     {:reply, execution, %{state | execution: execution}}
@@ -55,5 +56,10 @@ defmodule LambdexCore.LambdaExecution do
 
   def start_supervised_task(lambda) do
     Task.Supervisor.async_nolink(LambdexCore.LambdaTaskSupervisor, lambda.code, lambda.params)
+  end
+
+  defp get_process_reduction_count() do
+    {:ok, reductions} = Keyword.fetch(:erlang.process_info(self()), :reductions)
+    reductions
   end
 end

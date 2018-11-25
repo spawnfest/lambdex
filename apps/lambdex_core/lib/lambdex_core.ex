@@ -23,6 +23,6 @@ defmodule LambdexCore do
         {LambdexCore.LambdaExecution, {lambda_source, lambda_envs, lambda_params}}
       )
 
-    result = LambdexCore.LambdaExecution.run_sync(pid)
+    LambdexCore.LambdaExecution.run_sync(pid)
   end
 end
