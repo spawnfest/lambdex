@@ -42,4 +42,19 @@ defmodule LambdexServerWeb.LambdaExecutionController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def run_lambda(conn, %{"path" => path} = params) do
+    lambda = Lambdas.get_lambda_by_path!(path)
+
+    execution_params = params["execution_params"]
+
+    execution =
+      LambdexCore.run_sync(lambda.code, lambda.params, execution_params)
+      |> Map.from_struct()
+
+    data_execution = %{data: execution, lambda_id: lambda.id}
+
+    lambda_execution_param = %{"lambda_execution" => data_execution}
+    create(conn, lambda_execution_param)
+  end
 end

@@ -22,13 +22,14 @@ defmodule LambdexServerWeb.Router do
 
     resources "/users", UserController
     post("/users/token", UserController, :token)
+    post "/lambdas/:path", LambdaExecutionController, :run_lambda
 
     scope "/" do
       pipe_through :auth
 
       resources "/lambdas", LambdaController
       resources "/lambda_executions", LambdaExecutionController
-      # post "/lambas/:id/run", LambdaController, :run
+
     end
   end
 

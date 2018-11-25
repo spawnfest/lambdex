@@ -49,7 +49,8 @@ defmodule LambdexServer.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:lambdex_core, in_umbrella: true}
     ]
   end
 
