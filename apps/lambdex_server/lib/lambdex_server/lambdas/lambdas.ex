@@ -30,7 +30,7 @@ defmodule LambdexServer.Lambdas do
     coalesce(data.c, 0)
     from generate_series(now() - interval '1 hour', now(), '5 minutes'::interval) date
     left outer join (SELECT count(*) c,
-                    to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) AT TIME ZONE 'UTC' as interval_alias
+                    to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) as interval_alias
              FROM lambda_executions
              where data->>'status' != 'error'
                    AND lambda_id = $1
@@ -41,7 +41,7 @@ defmodule LambdexServer.Lambdas do
             coalesce(data.c, 0)
     from generate_series(now() - interval '1 hour', now(), '5 minutes'::interval) date
     left outer join (SELECT sum((data->>'duration')::float) c,
-                            to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) AT TIME ZONE 'UTC' as interval_alias
+                            to_timestamp(floor((extract('epoch' from inserted_at) / 300)) * 300) as interval_alias
                      FROM lambda_executions
                      WHERE data->>'status' != 'error'
                            AND lambda_id = $1
@@ -85,7 +85,7 @@ defmodule LambdexServer.Lambdas do
     coalesce(data.c, 0)
     from generate_series(now() - interval '12 hour', now(), '30 minutes'::interval) date
     left outer join (SELECT count(*) c,
-                to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) AT TIME ZONE 'UTC' as interval_alias
+                to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) as interval_alias
          FROM lambda_executions
          WHERE data->>'status' != 'error'
                AND lambda_id = $1
@@ -96,7 +96,7 @@ defmodule LambdexServer.Lambdas do
             coalesce(data.c, 0)
     from generate_series(now() - interval '12 hour', now(), '30 minutes'::interval) date
     left outer join (SELECT sum((data->>'duration')::float) c,
-                            to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) AT TIME ZONE 'UTC' as interval_alias
+                            to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) as interval_alias
                      FROM lambda_executions
                      WHERE data->>'status' != 'error'
                            AND lambda_id = $1
@@ -107,7 +107,7 @@ defmodule LambdexServer.Lambdas do
     coalesce(data.c, 0)
     from generate_series(now() - interval '12 hour', now(), '30 minutes'::interval) date
     left outer join (SELECT count(*) c,
-                to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) AT TIME ZONE 'UTC' as interval_alias
+                to_timestamp(floor((extract('epoch' from inserted_at) / 1800)) * 1800) as interval_alias
          FROM lambda_executions
          WHERE data->>'status' = 'error'
                AND lambda_id = $1
