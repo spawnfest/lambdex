@@ -1,10 +1,5 @@
 # Lambdex
 
-- how to use it
-- how to build it
-- how to test it
-- next steps / TODOs
-
 ## Goal
 
 Lambdex is a code execution service, allowing one to run code without building the surrounding infrastructure.
@@ -43,17 +38,17 @@ Since Lambdex is built using Phoenix, you can use the standard steps:
 
 ### Logging in
 
-![Login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/login.png)
+![login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/login.png)
 
 The database seed includes a created user 'test@lambdex.com' with password 'password' which you can use to log in and start using the system.
 
 On login the user is presented with a list of runnable lambdas and their details.
 
-![Login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/list.png)
+![list](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/list.png)
 
 ### Creating lambdas
 
-![Login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_creation.png)
+![creation](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_creation.png)
 
 To create a new lambda, click on the green button labeled `Create`.
 
@@ -103,21 +98,22 @@ Note that since lambdas are just anonymous functions which will run in the conte
 - [uuid](https://hex.pm/packages/uuid)
 - [yamerl](https://hex.pm/packages/yamerl)
 
-### Runing Lambdas 
+### Running Lambdas
 
 Once a lambda has been created it will be listed in the main screen.
 Each entry has four buttons: `Info`, `Edit`, `Run`, `Delete`.
 
-![Login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_entry.png)
+![entry](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_entry.png)
 
 Clicking on the `Info` button will show the details for that lambda.
 
-![Login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_info.png)
+![info](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_info.png)
 
 Clicking on the `Run` button will run 
 
 ## Next steps
 
+- Improve lambda debuggability.
 - Make the LambdexCore API support asyncronous running of lambdas. 
 - Limit lambda execution time to a configured value.
 - Validate the uploaded code to better ensure it runnability and prevent use of problematic features such as spawn, ETS tables, etc.
