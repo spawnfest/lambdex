@@ -4,6 +4,7 @@ import Box from "react-bulma-components/lib/components/box";
 import Section from "react-bulma-components/lib/components/section";
 import Columns from "react-bulma-components/lib/components/columns";
 import Heading from "react-bulma-components/lib/components/heading";
+import Button from "react-bulma-components/lib/components/button";
 import client from "../../services/apiClient";
 import PageLoader from "../common/PageLoader";
 
@@ -34,6 +35,10 @@ class Home extends Component {
     window.location = `/details/${lambda.id}`;
   };
 
+  createClicked() {
+    window.location = `/create`;
+  };
+
   renderHeader() {
     return <Box className="lambda-list-header">
     <Columns>
@@ -47,6 +52,7 @@ class Home extends Component {
         <Heading size={4}>Timing</Heading>
       </Columns.Column>
       <Columns.Column>
+        <Button color="success" onClick={this.createClicked}>Create</Button>
       </Columns.Column>
     </Columns>
     </Box>
