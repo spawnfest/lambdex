@@ -4,7 +4,7 @@ import Columns from "react-bulma-components/lib/components/columns";
 import Container from "react-bulma-components/lib/components/container";
 import Box from "react-bulma-components/lib/components/box";
 
-import {Field, Input, Textarea, Control, Checkbox, Label} from "react-bulma-components/lib/components/form";
+import {Field, Input, Textarea, Control, Checkbox, Label, Help} from "react-bulma-components/lib/components/form";
 import Button from "react-bulma-components/lib/components/button";
 import client from "../../services/apiClient";
 
@@ -105,6 +105,7 @@ class LambdaForm extends Component {
               <Field>
                 <Control>
                   <Label>ENV Params</Label>
+                  <Help color="info">{'{"key": "val", ...}'}</Help>
                   <Textarea type="text" name="params" value={this.state.params}
                         onChange={this.handleInputChange}/>
                 </Control>
@@ -112,6 +113,7 @@ class LambdaForm extends Component {
               <Field>
                 <Control>
                   <Label>Code</Label>
+                  <Help color="info">fn (environment_variables, _execution_variables) -> ... your code here... end</Help>
                   <Textarea type="text" name="code" value={this.state.code}
                         onChange={this.handleInputChange}/>
                 </Control>
