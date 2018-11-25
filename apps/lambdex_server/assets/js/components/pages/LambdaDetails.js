@@ -40,6 +40,23 @@ class LambdaDetails extends Component {
     })
   }
 
+  editClicked() {
+    window.location = `/edit/${this.state.lambda.id}`;
+  }
+
+  runClicked() {
+    alert("soon!");
+  }
+  
+  deleteClicked() {
+    if (confirm("Are you sure you want to delete?")) {
+      client.delete(`/api/lambdas/${this.state.lambda.id}`).then((ret) => {
+        console.log(ret);
+        window.location = "/";
+      });
+    }
+  }
+
   render() {
     if (!this.state.lambda) {
       return <PageLoader/>
@@ -57,9 +74,9 @@ class LambdaDetails extends Component {
               </Level.Item>
             </Level.Side>
             <Level.Side align="right">
-              <Level.Item><Button color="info"><FAIcon icon={faCogs}/></Button></Level.Item>
-              <Level.Item><Button color="info"><FAIcon icon={faRunning}/></Button></Level.Item>
-              <Level.Item><Button color="danger"><FAIcon icon={faTrash}/></Button></Level.Item>
+              <Level.Item><Button color="info" onClick={this.editClicked.bind(this)}><FAIcon icon={faCogs}/></Button></Level.Item>
+              <Level.Item><Button color="info" onClick={this.runClicked.bind(this)}><FAIcon icon={faRunning}/></Button></Level.Item>
+              <Level.Item><Button color="danger" onClick={this.deleteClicked.bind(this)}><FAIcon icon={faTrash}/></Button></Level.Item>
             </Level.Side>
           </Level>
         </Box>
