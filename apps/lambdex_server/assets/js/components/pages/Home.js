@@ -36,7 +36,7 @@ class Home extends Component {
   };
 
   createClicked() {
-    window.location = `/create`;
+    window.location = "/create";
   };
 
   renderHeader() {
