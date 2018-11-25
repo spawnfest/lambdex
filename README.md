@@ -38,17 +38,17 @@ Since Lambdex is built using Phoenix, you can use the standard steps:
 
 ### Logging in
 
-![login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/login.png)
+![login](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/login.jpg)
 
 The database seed includes a created user 'test@lambdex.com' with password 'password' which you can use to log in and start using the system.
 
 On login the user is presented with a list of runnable lambdas and their details.
 
-![list](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/list.png)
+![list](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/list.jpg)
 
 ### Creating lambdas
 
-![creation](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_creation.png)
+<!-- ![creation](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_creation.jpg) -->
 
 To create a new lambda, click on the green button labeled `Create`.
 
@@ -107,7 +107,7 @@ Each entry has four buttons: `Info`, `Edit`, `Run`, `Delete`.
 
 Clicking on the `Info` button will show the details for that lambda.
 
-![info](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_info.png)
+![info](https://raw.githubusercontent.com/spawnfest/lambdex/master/docs/images/lambda_info.jpg)
 
 Clicking on the `Run` button will run the lambda manually.
 
