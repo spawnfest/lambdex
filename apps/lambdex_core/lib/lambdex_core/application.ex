@@ -10,7 +10,8 @@ defmodule LambdexCore.Application do
 
     # List all child processes to be supervised
     children = [
-      {DynamicSupervisor, strategy: :one_for_one, name: LambdexCore.ExecutionSupervisor}
+      {DynamicSupervisor, strategy: :one_for_one, name: LambdexCore.ExecutionSupervisor},
+      {Task.Supervisor, name: LambdexCore.LambdaTaskSupervisor}
     ]
 
     opts = [strategy: :one_for_one, name: LambdexCore.Supervisor]
