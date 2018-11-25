@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box} from "react-bulma-components";
+import Box from "react-bulma-components/lib/components/box";
 import Columns from "react-bulma-components/lib/components/columns";
 import Heading from "react-bulma-components/lib/components/heading";
 import Button from "react-bulma-components/lib/components/button";
@@ -19,7 +19,8 @@ const LambdaListItem = ({lambda, onItemClicked})=>(
   <Box>
     <Columns>
       <Columns.Column>
-        <Heading size={4}>{lambda.name || "- noname -"}</Heading>
+        <Heading size={4}>{lambda.name}</Heading>
+        <div className="lambda-path">/{lambda.path}</div>
       </Columns.Column>
       <Columns.Column>
         <LambdaListChart data={mockDataChart} dataKey={"runs"}/>

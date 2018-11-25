@@ -1,4 +1,11 @@
-.chart{
+.lambda-list-header {
+  background-color: rgba($color: #1496ed, $alpha: 1) !important;
+  .column h1 {
+    color: white;
+  }
+}
+
+.chart {
   width: 200px;
   height: 100px;
   border: 1px solid gray;
