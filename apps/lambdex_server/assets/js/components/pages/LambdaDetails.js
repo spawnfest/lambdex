@@ -49,9 +49,10 @@ class LambdaDetails extends Component {
         <Box>
           <Level>
             <Level.Side align="left">
-              <Level.Item>
+              <Level.Item className="lambda-detail-title">
                 <Heading size={5} subtitle>
-                  <strong>{this.state.lambda.name}</strong> {this.state.lambda.path}
+                  <strong>{this.state.lambda.name}</strong>
+                  <small>/{this.state.lambda.path}</small>
                 </Heading>
               </Level.Item>
             </Level.Side>

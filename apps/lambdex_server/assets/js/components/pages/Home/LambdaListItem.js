@@ -16,11 +16,11 @@ const mockDataChart = [
   {hour: 15, runs: 1, timing: 3, failures: 9}
 ];
 
-const LambdaListItem = ({lambda, onItemEdit, onItemDetails})=>(
+const LambdaListItem = ({lambda, onItemEdit, onItemDetails, onItemDelete})=>(
   <Box>
     <Columns>
       <Columns.Column>
-        <Heading size={4}>{lambda.name}</Heading>
+        <Heading size={4} className="lambda-name" onClick={onItemDetails}>{lambda.name}</Heading>
         <div className="lambda-path">/{lambda.path}</div>
       </Columns.Column>
       <Columns.Column>
@@ -35,7 +35,7 @@ const LambdaListItem = ({lambda, onItemEdit, onItemDetails})=>(
           <Button color="info" onClick={onItemDetails}><FAIcon icon={faInfo}/></Button>
           <Button color="info" onClick={onItemEdit}><FAIcon icon={faCogs}/></Button>
           <Button color="info"><FAIcon icon={faRunning}/></Button>
-          <Button color="danger"><FAIcon icon={faTrash}/></Button>
+          <Button color="danger" onClick={onItemDelete}><FAIcon icon={faTrash}/></Button>
         </Button.Group>
       </Columns.Column>
     </Columns>
