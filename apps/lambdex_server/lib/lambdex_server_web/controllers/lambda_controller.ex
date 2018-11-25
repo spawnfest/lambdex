@@ -12,9 +12,7 @@ defmodule LambdexServerWeb.LambdaController do
   end
 
   def create(conn, %{"lambda" => lambda_params}) do
-    # IO.inspect(conn.current_user);
-    # lambda = Map.put(lambda_params, "user_id", conn.current_user.id)
-    lambda = Map.put(lambda_params, "user_id", conn.private.guardian_default_resource.id)
+    lambda = Map.put(lambda_params, "user_id", conn.assigns.current_user.id)
     with {:ok, %Lambda{} = lambda} <- Lambdas.create_lambda(lambda) do
       conn
       |> put_status(:created)

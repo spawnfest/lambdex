@@ -5,15 +5,17 @@ defmodule LambdexCore.LambdaExecution do
 
   Process.flag(:trap_exit, true)
 
-  def start_link(lambda, opts \\ []) do
-    GenServer.start_link(__MODULE__, lambda, opts)
+  def start_link({lambda_fn, lambda_envs, lambda_params}, opts \\ []) do
+    GenServer.start_link(__MODULE__, {lambda_fn, lambda_envs, lambda_params}, opts)
   end
 
   @impl true
-  def init(lambda) do
+  def init({lambda_fn, lambda_envs, lambda_params}) do
     # start_supervised_task(lambda)
     state = %{
-      lambda: lambda,
+      lambda_fn: lambda_fn,
+      lambda_envs: lambda_envs,
+      lambda_params: lambda_params,
       execution: %Execution{}
     }
 
@@ -39,7 +41,7 @@ defmodule LambdexCore.LambdaExecution do
 
     result =
       try do
-        {:ok, Kernel.apply(state.lambda.code, state.lambda.params)}
+        {:ok, Kernel.apply(state.lambda_fn, state.lambda_params)}
       rescue
         error ->
           {:error, error}

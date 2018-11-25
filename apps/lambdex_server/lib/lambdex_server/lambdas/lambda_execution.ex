@@ -14,7 +14,7 @@ defmodule LambdexServer.Lambdas.LambdaExecution do
   @doc false
   def changeset(lambda_execution, attrs) do
     lambda_execution
-    |> cast(attrs, [:data])
+    |> cast(attrs, [:data, :lambda_id])
     |> foreign_key_constraint(:lambda_id)
     |> validate_required([:data])
   end

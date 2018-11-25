@@ -21,7 +21,7 @@ class Home extends Component {
 
   editClicked(lambda) {
     window.location = `/edit/${lambda.id}`;
-  };
+  }
   
   deleteClicked(lambda) {
     if (confirm("Are you sure you want to delete?")) {
@@ -30,15 +30,15 @@ class Home extends Component {
         window.location = "/";
       });
     }
-  };
+  }
 
   detailsClicked(lambda) {
     window.location = `/details/${lambda.id}`;
-  };
+  }
 
   createClicked() {
     window.location = "/create";
-  };
+  }
 
   runClicked() {
     window.location = "/create";

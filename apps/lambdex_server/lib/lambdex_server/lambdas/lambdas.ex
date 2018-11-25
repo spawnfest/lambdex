@@ -67,6 +67,11 @@ defmodule LambdexServer.Lambdas do
   """
   def get_lambda!(id), do: Repo.get!(Lambda, id)
 
+  def get_lambda_by_path!(path) do
+    query = from(l in Lambda, where: l.path == ^path)
+    Repo.one(query)
+  end
+
   @doc """
   Creates a lambda.
 

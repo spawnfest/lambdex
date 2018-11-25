@@ -3,6 +3,7 @@ defmodule LambdexCore.Execution do
   The Lambda Execution
   """
 
+  @derive Jason.Encoder
   defstruct lambda_id: nil,
     executed_at: nil,
     result: nil,
@@ -22,7 +23,7 @@ defmodule LambdexCore.Execution do
     |> set_success
   end
   def put_result(%__MODULE__{} = execution, {:error, error}) do
-    %{execution | result: error}
+    %{execution | result: "#{inspect(error)}"}
     |> set_error()
   end
 

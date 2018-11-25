@@ -28,7 +28,8 @@ defmodule LambdexServerWeb.Router do
 
       resources "/lambdas", LambdaController
       resources "/lambda_executions", LambdaExecutionController
-      # post "/lambas/:id/run", LambdaController, :run
+      post "/lambdas/:path", LambdaExecutionController, :run_lambda
+
     end
   end
 
