@@ -13,6 +13,7 @@ defmodule LambdexServerWeb.LambdaView do
   def render("lambda.json", %{lambda: lambda}) do
     %{
       id: lambda.id,
+      name: lambda.name,
       path: lambda.path,
       params: lambda.params,
       code: lambda.code,

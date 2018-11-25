@@ -13,14 +13,15 @@ defmodule LambdexServer.LambdasTest do
   describe "lambdas" do
     alias LambdexServer.Lambdas.Lambda
 
-    @valid_attrs %{code: "some code", enabled: true, params: %{}, path: "some path"}
+    @valid_attrs %{name: "some name", code: "some code", enabled: true, params: %{}, path: "some path"}
     @update_attrs %{
+      name: "some updated name",
       code: "some updated code",
       enabled: false,
       params: %{},
       path: "some updated path"
     }
-    @invalid_attrs %{code: nil, enabled: nil, params: nil, path: nil}
+    @invalid_attrs %{name: nil, code: nil, enabled: nil, params: nil, path: nil}
 
     def lambda_fixture(attrs \\ %{}) do
       {:ok, user} = Accounts.create_user(@user_attrs)
