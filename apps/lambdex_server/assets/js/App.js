@@ -4,6 +4,11 @@ import AppRouter from "./AppRouter";
 
 class App extends Component {
   render() {
+    const logout = () => {
+      localStorage.clear();
+      window.location = "/login";
+    };
+
     return (
       <div>
         <Navbar color="light" fixed="top" active>
@@ -12,6 +17,13 @@ class App extends Component {
               lambdex
             </Navbar.Item>
           </Navbar.Brand>
+          <Navbar.Menu>
+            <Navbar.Container position="end">
+              <Navbar.Item onClick={logout}>
+                Logout
+              </Navbar.Item>
+            </Navbar.Container>
+          </Navbar.Menu>
         </Navbar>
         <AppRouter/>
       </div>
