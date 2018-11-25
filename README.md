@@ -44,8 +44,6 @@ The database seed includes a created user 'test@lambdex.com' with password 'pass
 
 On login the user is presented with a list of runnable lambdas and their details.
 
-![list](docs/images/list.jpg)
-
 ### Creating lambdas
 
 <!-- ![creation](docs/images/lambda_creation.jpg) -->
@@ -73,7 +71,6 @@ As mentioned the environment params are set on lambda creation, while the execut
 The `Enabled` checkbox must be set to enable the lambda to run.
 
 Note that since lambdas are just anonymous functions which will run in the context of the Lambdex server, the only dependencies you can use are those provided by the server. For that purpose the Lambdex server includes a series of popular dependencies which can be used from the user provided lambdas:
-- [absinthe](https://hex.pm/packages/absinthe)
 - [base64url](https://hex.pm/packages/base64url)
 - [bbmustache](https://hex.pm/packages/bbmustache)
 - [bcrypt_elixir](https://hex.pm/packages/bcrypt_elixir)
@@ -102,6 +99,8 @@ Note that since lambdas are just anonymous functions which will run in the conte
 
 Once a lambda has been created it will be listed in the main screen.
 Each entry has four buttons: `Info`, `Edit`, `Run`, `Delete`.
+
+![list](docs/images/list.jpg)
 
 <!-- ![entry](docs/images/lambda_entry.png) -->
 
