@@ -15,6 +15,7 @@ import PageLoader from "../common/PageLoader";
 import Heading from "react-bulma-components/lib/components/heading";
 import FAIcon from "../common/FAIcon";
 import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
+import RunLambdaModal from "../common/RunLambdaModal";
 
 const
   mockDataChart = [
@@ -33,7 +34,7 @@ const
 class LambdaDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = {lambda: null};
+    this.state = {lambda: null, showModal:false};
 
     client.get(`/api/lambdas/${props.match.params.id}`).then((ret) => {
       this.setState({lambda: ret.data.data})
@@ -42,10 +43,6 @@ class LambdaDetails extends Component {
 
   editClicked() {
     window.location = `/edit/${this.state.lambda.id}`;
-  }
-
-  runClicked() {
-    alert("soon!");
   }
   
   deleteClicked() {
@@ -56,7 +53,13 @@ class LambdaDetails extends Component {
       });
     }
   }
+  onRunClicked() {
+    this.setState({showModal: true})
+  }
 
+  onModalClose() {
+    this.setState({showModal: false})
+  }
   render() {
     if (!this.state.lambda) {
       return <PageLoader/>
@@ -75,7 +78,7 @@ class LambdaDetails extends Component {
             </Level.Side>
             <Level.Side align="right">
               <Level.Item><Button color="info" onClick={this.editClicked.bind(this)}><FAIcon icon={faCogs}/></Button></Level.Item>
-              <Level.Item><Button color="info" onClick={this.runClicked.bind(this)}><FAIcon icon={faRunning}/></Button></Level.Item>
+              <Level.Item><Button color="info" onClick={this.onRunClicked.bind(this)}><FAIcon icon={faRunning}/></Button></Level.Item>
               <Level.Item><Button color="danger" onClick={this.deleteClicked.bind(this)}><FAIcon icon={faTrash}/></Button></Level.Item>
             </Level.Side>
           </Level>
@@ -137,6 +140,9 @@ class LambdaDetails extends Component {
             </Table>
           </Panel.Block>
         </Panel>
+        <RunLambdaModal lambda={this.state.lambda}
+                        show={this.state.showModal}
+                        onClose={this.onModalClose.bind(this)}/>
       </Section>
     );
   }

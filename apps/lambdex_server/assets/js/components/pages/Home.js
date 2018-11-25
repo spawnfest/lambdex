@@ -7,6 +7,7 @@ import Heading from "react-bulma-components/lib/components/heading";
 import Button from "react-bulma-components/lib/components/button";
 import client from "../../services/apiClient";
 import PageLoader from "../common/PageLoader";
+import RunLambdaModal from "../common/RunLambdaModal";
 
 class Home extends Component {
   constructor(props) {
