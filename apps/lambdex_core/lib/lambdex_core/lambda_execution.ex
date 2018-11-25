@@ -3,17 +3,14 @@ defmodule LambdexCore.LambdaExecution do
 
   alias LambdexCore.Execution
 
-  Process.flag(:trap_exit, true)
-
-  def start_link({lambda_fn, lambda_envs, lambda_params}, opts \\ []) do
-    GenServer.start_link(__MODULE__, {lambda_fn, lambda_envs, lambda_params}, opts)
+  def start_link({lambda_source, lambda_envs, lambda_params}, opts \\ []) do
+    GenServer.start_link(__MODULE__, {lambda_source, lambda_envs, lambda_params}, opts)
   end
 
   @impl true
-  def init({lambda_fn, lambda_envs, lambda_params}) do
-    # start_supervised_task(lambda)
+  def init({lambda_source, lambda_envs, lambda_params}) do
     state = %{
-      lambda_fn: lambda_fn,
+      lambda_source: lambda_source,
       lambda_envs: lambda_envs,
       lambda_params: lambda_params,
       execution: %Execution{}
@@ -23,26 +20,16 @@ defmodule LambdexCore.LambdaExecution do
   end
 
   @impl true
-  def handle_info({:DOWN, _ref, :process, pid, reason}, state) do
-    IO.puts("#{inspect(reason)} by #{inspect(pid)}")
-    # {:stop, reason, state}
-    {:noreply, state}
-  end
-
-  def handle_info(msg, state) do
-    IO.inspect(msg, label: "msg")
-    {:noreply, state}
-  end
-
-  @impl true
   def handle_call(:run, _from, state) do
     start_time = System.monotonic_time(:milliseconds)
     at_time = :os.system_time(:seconds)
 
     result =
       try do
-        {:ok, Kernel.apply(state.lambda_fn, state.lambda_params)}
+        {lambda_fn, _params} = Code.eval_string(state.lambda_source)
+        {:ok, Kernel.apply(lambda_fn, [state.lambda_envs, state.lambda_params])}
       rescue
+        #CompileError ->
         error ->
           {:error, error}
       end

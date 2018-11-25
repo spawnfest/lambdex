@@ -43,13 +43,11 @@ defmodule LambdexServerWeb.LambdaExecutionController do
     end
   end
 
-  def run_lambda(conn, %{"path" => path} = params) do
+  def run_lambda(conn, %{"path" => path}) do
     lambda = Lambdas.get_lambda_by_path!(path)
 
-    execution_params = params["execution_params"]
-
     execution =
-      LambdexCore.run_sync(lambda.code, lambda.params, execution_params)
+      LambdexCore.run_sync(lambda.code, lambda.params, conn.body_params)
       |> Map.from_struct()
 
     data_execution = %{data: execution, lambda_id: lambda.id}
