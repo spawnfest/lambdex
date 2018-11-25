@@ -40,7 +40,7 @@ defmodule LambdexCore.LambdaExecution do
       state.execution
       |> Execution.put_executed_at(at_time)
       |> Execution.put_duration(duration)
-      |> Executino.put_reductions(reductions)
+      |> Execution.put_reductions(reductions)
       |> Execution.put_result(result)
 
     {:reply, execution, %{state | execution: execution}}
