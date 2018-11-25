@@ -6,7 +6,6 @@ import Button from "react-bulma-components/lib/components/button";
 import './LambdaListItem.scss';
 import LambdaListChart from "./LambdaListChart";
 import Trend from "../../common/Trend";
-import Box from "react-bulma-components/lib/components/box";
 import FAIcon from "../../common/FAIcon";
 import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 
