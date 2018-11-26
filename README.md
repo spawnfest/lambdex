@@ -30,7 +30,7 @@ contains the proper values.
 Since Lambdex is built using Phoenix, you can use the standard steps: 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
+  * Install Node.js dependencies with `cd apps/lambdex_server/assets && npm install`
   * Start Phoenix endpoint with `mix phx.server`
   * Open a browser and point it to `localhost:4000`
 
