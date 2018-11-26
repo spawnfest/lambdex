@@ -35,11 +35,15 @@ class LambdaDetails extends Component {
       simpleModalShow: false
     };
 
-    client.get(`/api/lambdas/${props.match.params.id}`).then((ret) => {
+    this.loadData()
+  }
+
+  loadData(){
+    client.get(`/api/lambdas/${this.props.match.params.id}`).then((ret) => {
       this.setState({lambda: ret.data.data})
     });
 
-    client.get(`/api/lambdas/${props.match.params.id}/executions`).then((ret) => {
+    client.get(`/api/lambdas/${this.props.match.params.id}/executions`).then((ret) => {
       this.setState({executions: ret.data.data})
     })
   }
@@ -61,7 +65,8 @@ class LambdaDetails extends Component {
   }
 
   onModalClose() {
-    this.setState({showModal: false})
+    this.setState({showModal: false, lambda: null, executions: null})
+    this.loadData();
   }
 
   simpleModalClose(){

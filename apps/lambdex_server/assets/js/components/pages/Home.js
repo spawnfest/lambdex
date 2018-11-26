@@ -14,6 +14,10 @@ class Home extends Component {
     super(props);
     this.state = {data: null};
 
+    this.loadData();
+  }
+
+  loadData(){
     client.get("/api/lambdas").then((ret) => {
       this.setState({data: ret.data.data});
     });
@@ -38,6 +42,11 @@ class Home extends Component {
 
   createClicked() {
     window.location = "/create";
+  }
+
+  onNewData(){
+    this.setState({data: null});
+    this.loadData();
   }
 
   renderHeader() {
@@ -68,7 +77,8 @@ class Home extends Component {
       {this.state.data.map((lambda, i) => <LambdaListItem key={i} lambda={lambda}
                                                           onItemDetails={this.detailsClicked.bind(this, lambda)}
                                                           onItemEdit={this.editClicked.bind(this, lambda)}
-                                                          onItemDelete={this.deleteClicked.bind(this, lambda)}/>)}
+                                                          onItemDelete={this.deleteClicked.bind(this, lambda)}
+                                                          onNewData={this.onNewData.bind(this)}/>)}
     </Section>
   }
 }

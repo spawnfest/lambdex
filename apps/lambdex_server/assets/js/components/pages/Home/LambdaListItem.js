@@ -21,7 +21,8 @@ class LambdaListItem extends Component {
   }
 
   onModalClose() {
-    this.setState({showModal: false})
+    this.setState({showModal: false});
+    this.props.onNewData()
   }
 
   render() {
