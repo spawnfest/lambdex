@@ -13,19 +13,27 @@
 alias LambdexServer.Repo
 alias LambdexServer.Accounts.User
 alias LambdexServer.Lambdas.Lambda
-alias LambdexServer.Lambdas.LambdaExecution
 
 %User{id: user_id} =
   %User{}
   |> User.changeset(%{email: "test@lambdex.com", name: "test user", password: "password"})
   |> Repo.insert!()
 
-Enum.map(1..10, fn i ->
-  %Lambda{id: lambda_id} =
+github_lambda = ~S"""
+fn(environment, client_params) ->
+  HTTPoison.start()
+  %HTTPoison.Response{body: body} = HTTPoison.get!("https://api.github.com/orgs/#{environment["org_name"]}/repos", [Accept: "application/vnd.github.inertia-preview+json"])
+  body
+  end
+"""
+
+Repo.insert!(%Lambda{code: github_lambda, name: "get spawnfest repos!", params: %{org_name: "spawnfest"}, path: "spawnfest-repos", user_id: user_id})
+
+Repo.insert!(%Lambda{code: ~s[fn(environment, client_params) ->
+    raise RuntimeError
+    end], name: "always error :(", params: %{}, path: "always-error", user_id: user_id})
+
+Enum.map(1..4, fn i ->
+  %Lambda{id: _lambda_id} =
     Repo.insert!(%Lambda{code: ~s[fn(environment, client_params) -> "hello lambda!" end], name: "lambda ##{i}", params: %{}, path: "lambda#{i}", user_id: user_id})
-
-
-  Enum.map(1..100, fn j ->
-    Repo.insert!(%LambdaExecution{data: %{}, lambda_id: lambda_id})
-  end)
 end)
