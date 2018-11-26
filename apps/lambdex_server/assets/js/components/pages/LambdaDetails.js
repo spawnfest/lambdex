@@ -16,12 +16,24 @@ import Heading from "react-bulma-components/lib/components/heading";
 import FAIcon from "../common/FAIcon";
 import {faCogs, faRunning, faTrash} from "@fortawesome/free-solid-svg-icons";
 import RunLambdaModal from "../common/RunLambdaModal";
-import LambdaDetailRow from "./LambdaDetails/LambdaDetailRow";
+import ShowDetailModal from "../common/ShowDetailModal";
+import moment from "moment";
+
+function formatParams(exec){
+  return "env:\n" + JSON.stringify(exec.envs, null, 2) + "\n\nparams:\n" + JSON.stringify(exec.params, null, 2);
+}
 
 class LambdaDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = {lambda: null, showModal:false, executions: null};
+    this.state = {
+      lambda: null,
+      showModal:false,
+      executions: null,
+      simpleModalText: "",
+      simpleModalTitle: "",
+      simpleModalShow: false
+    };
 
     client.get(`/api/lambdas/${props.match.params.id}`).then((ret) => {
       this.setState({lambda: ret.data.data})
@@ -51,6 +63,18 @@ class LambdaDetails extends Component {
   onModalClose() {
     this.setState({showModal: false})
   }
+
+  simpleModalClose(){
+    this.setState({simpleModalShow: false})
+  }
+
+  simpleModalShow(title, text){
+    this.setState({
+      simpleModalTitle: title,
+      simpleModalText: text,
+      simpleModalShow: true})
+  }
+
   render() {
     if (!this.state.lambda) {
       return <PageLoader/>
@@ -113,7 +137,16 @@ class LambdaDetails extends Component {
               </tr>
               </thead>
               <tbody>
-              {this.state.executions.map((item, i) => <LambdaDetailRow key={i} execution={item}/>)}
+              {this.state.executions.map((item, i) => <tr key={i}>
+                <td>{moment.unix(item.data["executed_at"]).fromNow()}</td>
+                <td>{item.data.duration} ms</td>
+                <td>
+                  <Button.Group>
+                    <Button color="info" onClick={this.simpleModalShow.bind(this, "params", formatParams(item.data))}>params</Button>
+                    <Button color="info" onClick={this.simpleModalShow.bind(this, "result", item.data.result)}>result</Button>
+                  </Button.Group>
+                </td>
+              </tr>)}
               </tbody>
             </Table>}
           </Panel.Block>
@@ -121,6 +154,13 @@ class LambdaDetails extends Component {
         <RunLambdaModal lambda={this.state.lambda}
                         show={this.state.showModal}
                         onClose={this.onModalClose.bind(this)}/>
+
+        <ShowDetailModal
+          text={this.state.simpleModalText}
+          title={this.state.simpleModalTitle}
+          show={this.state.simpleModalShow}
+          onClose={this.simpleModalClose.bind(this)}
+        />
       </Section>
     );
   }

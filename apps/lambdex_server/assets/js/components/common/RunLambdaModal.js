@@ -37,7 +37,7 @@ class RunLambdaModal extends Component {
 
     this.setState({running: true, errors: null, output: null});
     client.post(`/api/lambdas/${this.props.lambda.path}`, params)
-      .then((data)=>{this.setState({output: JSON.stringify(data, null, 2), running: false})})
+      .then((data)=>{this.setState({output: JSON.stringify(data.data.data.data, null, 2), running: false})})
       .catch((data)=>{this.setState({errors: "Error running lambda", running: false})})
   }
 

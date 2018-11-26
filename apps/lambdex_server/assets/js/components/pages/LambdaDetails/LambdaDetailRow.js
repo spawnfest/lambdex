@@ -9,8 +9,8 @@ class LambdaDetailRow extends Component {
         <td>{this.props.execution.data.duration} ms</td>
         <td>
           <Button.Group>
-            <Button color="info">params</Button>
-            <Button color="info">result</Button>
+            <Button color="info" onClick={this.props.modalShow(this.props.execution.params)}>params</Button>
+            <Button color="info" onClick={this.props.modalShow(this.props.execution.result)}>result</Button>
           </Button.Group>
         </td>
       </tr>
