@@ -6,7 +6,7 @@ defmodule LambdexServer.Repo.Migrations.CreateLambdas do
       add :id, :binary_id, primary_key: true
       add :path, :string
       add :params, :map
-      add :code, :string
+      add :code, :text
       add :enabled, :boolean, default: true, null: false
       add :user_id, references(:users, on_delete: :nothing, type: :binary_id)
 
