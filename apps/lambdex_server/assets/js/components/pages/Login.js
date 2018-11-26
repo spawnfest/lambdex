@@ -26,10 +26,18 @@ class Login extends Component {
         email: this.state.email,
         password: this.state.password
       }
-    }).then((res=>{
+    }).then((res) => {
       localStorage.setItem("jwt", res.data.token);
       window.location = "/";
-    }));
+    }).catch((err) => {
+      if (err && err.response && err.response.status === 400) {
+        alert("Wrong username or password.");
+      } else if (err && err.response && err.response.data) {
+        alert(err.response.data);
+      } else {
+        alert("Unknown error!");
+      }
+    });
   }
 
   onEmailChange(e) {
@@ -50,13 +58,13 @@ class Login extends Component {
               <Field>
                 <Control>
                   <Input type="text" placeholder="email" value={this.state.email}
-                         onChange={this.onEmailChange}/>
+                        onChange={this.onEmailChange}/>
                 </Control>
               </Field>
               <Field>
                 <Control>
                   <Input type="password" placeholder="password" value={this.state.password}
-                         onChange={this.onPasswordChange}/>
+                        onChange={this.onPasswordChange}/>
                 </Control>
               </Field>
               <Button color={"info"} fullwidth size={"large"} onClick={this.onSubmit}>Login</Button>
