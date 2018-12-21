@@ -1,3 +1,7 @@
+# ATTENTION!
+All new development of Lambdex will continue in https://github.com/fiqus/lambdex.
+# ATTENTION!
+
 # Lambdex
 
 ## Goal
